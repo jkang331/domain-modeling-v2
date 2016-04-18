@@ -19,8 +19,8 @@ public class TestMe {
         return "I have been tested"
     }
 }
-
-
+/****************************************************************/
+// V2 ADDITIONS
 protocol CustomStringConvertible {
     func description() -> String  //QUESTION: SHOULD THIS BE A FUNC OR VAR?
 }
@@ -30,12 +30,40 @@ protocol Mathematics {
     func - (left: Money, right: Money) -> Money
 }
 
+//QUESTION: HAD TO PULL THIS OUT of the Money class
+public func + (left: Money, right: Money) -> Money {
+    if left.currency == right.currency {
+        return Money(amount: left.amount + right.amount, currency: left.currency);
+    }
+    let convertedAmount = left.convert(right.currency);
+    return Money(amount: convertedAmount.amount + right.amount, currency: right.currency);
+}
+
+public func - (left: Money, right: Money) -> Money {
+    if left.currency == right.currency {
+        return Money(amount: left.amount - right.amount, currency: left.currency);
+    }
+    let convertedAmount = left.convert(right.currency);
+    return Money(amount: convertedAmount.amount - right.amount, currency: right.currency);
+}
+
+// converting to USD (default currency)
+extension Double {
+    var USD: Double {return self}
+    var EUR: Double {return (self * 2) / 3}
+    var GBP: Double {return self * 2}
+    var CAN: Double {return (self * 4) / 5}
+}
+
+// TODO NEED TO WRITE UP UNIT TESTS FOR THIS
+
+/****************************************************************/
 
 ////////////////////////////////////
 // Money
 //
 public struct Money : CustomStringConvertible {
-    public var amount : Int
+    public var amount : Int // QUESTION: SWITCH THIS TO A DOUBLE??? AND REWRITE ALL TESTS??
     public var currency : String
     
     public func convert(to: String) -> Money {
@@ -115,26 +143,12 @@ public struct Money : CustomStringConvertible {
         return Money(amount: from.amount - convertedAmount.amount, currency: from.currency);
     }
     
+    /****************************************************************/
+    // V2 Additions
     public func description() -> String {
         return "\(currency)\(amount)"
     }
-}
-
-//QUESTION: HAD TO PULL THIS OUT of the Money class
-public func + (left: Money, right: Money) -> Money {
-    if left.currency == right.currency {
-        return Money(amount: left.amount + right.amount, currency: left.currency);
-    }
-    let convertedAmount = left.convert(right.currency);
-    return Money(amount: convertedAmount.amount + right.amount, currency: right.currency);
-}
-
-public func - (left: Money, right: Money) -> Money {
-    if left.currency == right.currency {
-        return Money(amount: left.amount - right.amount, currency: left.currency);
-    }
-    let convertedAmount = left.convert(right.currency);
-    return Money(amount: convertedAmount.amount - right.amount, currency: right.currency);
+    /****************************************************************/
 }
 
 ////////////////////////////////////
@@ -172,6 +186,8 @@ public class Job : CustomStringConvertible {
         }
     }
     
+    /****************************************************************/
+    // V2 Additions
     public func description() -> String {
         var salary : String
         switch job {
@@ -182,6 +198,7 @@ public class Job : CustomStringConvertible {
         }
         return "\(title) (\(salary))"
     }
+    /****************************************************************/
 
 }
 
@@ -227,11 +244,14 @@ public class Person : CustomStringConvertible {
         return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(job) spouse:\(spouse)]";
     }
     
+    /****************************************************************/
+    // V2 Additions
     public func description() -> String {
         let jobString = job != nil ? "\(job!.description())" : "nil"
         let spouseString = spouse != nil ? "\(spouse!.firstName) \(spouse!.lastName)" : "nil"
         return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(jobString) spouse:\(spouseString)]"
     }
+    /****************************************************************/
 }
 
 ////////////////////////////////////
@@ -283,6 +303,8 @@ public class Family : CustomStringConvertible {
         return foundAndRemoved
     }
     
+    /****************************************************************/
+    // V2 Additions
     public func description() -> String {
         var membersString = ""
         for person in members {
@@ -296,6 +318,7 @@ public class Family : CustomStringConvertible {
         
         return "[Members: \(membersString) | Household Income: \(householdIncome())]"
     }
+    /****************************************************************/
 }
 
 
