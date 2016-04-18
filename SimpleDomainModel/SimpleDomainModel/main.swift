@@ -22,7 +22,7 @@ public class TestMe {
 /****************************************************************/
 // V2 ADDITIONS
 protocol CustomStringConvertible {
-    func description() -> String  //QUESTION: SHOULD THIS BE A FUNC OR VAR?
+    var description : String {get}  //QUESTION: SHOULD THIS BE A FUNC OR VAR?
 }
 
 protocol Mathematics {
@@ -65,6 +65,15 @@ extension Double {
 public struct Money : CustomStringConvertible {
     public var amount : Int // QUESTION: SWITCH THIS TO A DOUBLE??? AND REWRITE ALL TESTS??
     public var currency : String
+    
+    /****************************************************************/
+    // V2 Additions
+    public var description : String {
+        get{
+            return "\(currency)\(amount)"
+        }
+    }
+    /****************************************************************/
     
     public func convert(to: String) -> Money {
         var newAmount: Int;
@@ -142,13 +151,6 @@ public struct Money : CustomStringConvertible {
         let convertedAmount = convert(from.currency);
         return Money(amount: from.amount - convertedAmount.amount, currency: from.currency);
     }
-    
-    /****************************************************************/
-    // V2 Additions
-    public func description() -> String {
-        return "\(currency)\(amount)"
-    }
-    /****************************************************************/
 }
 
 ////////////////////////////////////
@@ -162,6 +164,22 @@ public class Job : CustomStringConvertible {
         case Hourly(Double)
         case Salary(Int)
     }
+    
+    /****************************************************************/
+    // V2 Additions
+    public var description : String {
+        get{
+            var salary : String
+            switch job {
+            case .Hourly(let value):
+                salary = "\(value) per hour"
+            case .Salary(let value):
+                salary = "\(value) salary"
+            }
+            return "\(title) (\(salary))"
+        }
+    }
+    /****************************************************************/
     
     public init(title : String, type : JobType) {
         self.title = title;
@@ -185,21 +203,6 @@ public class Job : CustomStringConvertible {
             self.job = Job.JobType.Salary(Int(amt) + value);
         }
     }
-    
-    /****************************************************************/
-    // V2 Additions
-    public func description() -> String {
-        var salary : String
-        switch job {
-        case .Hourly(let value):
-            salary = "\(value) per hour"
-        case .Salary(let value):
-            salary = "\(value) salary"
-        }
-        return "\(title) (\(salary))"
-    }
-    /****************************************************************/
-
 }
 
 ////////////////////////////////////
@@ -211,6 +214,17 @@ public class Person : CustomStringConvertible {
     public var age : Int = 0
     private var _job : Job?
     private var _spouse: Person?
+    
+    /****************************************************************/
+    // V2 Additions
+    public var description : String {
+        get{
+            let jobString = job != nil ? "\(job!.description)" : "nil"
+            let spouseString = spouse != nil ? "\(spouse!.firstName) \(spouse!.lastName)" : "nil"
+            return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(jobString) spouse:\(spouseString)]"
+        }
+    }
+    /****************************************************************/
     
     public var job : Job? {
         get {
@@ -243,15 +257,6 @@ public class Person : CustomStringConvertible {
     public func toString() -> String {
         return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(job) spouse:\(spouse)]";
     }
-    
-    /****************************************************************/
-    // V2 Additions
-    public func description() -> String {
-        let jobString = job != nil ? "\(job!.description())" : "nil"
-        let spouseString = spouse != nil ? "\(spouse!.firstName) \(spouse!.lastName)" : "nil"
-        return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(jobString) spouse:\(spouseString)]"
-    }
-    /****************************************************************/
 }
 
 ////////////////////////////////////
@@ -260,6 +265,25 @@ public class Person : CustomStringConvertible {
 public class Family : CustomStringConvertible {
     private var members : [Person] = []
     private var canHaveKids : Bool = false
+    
+    /****************************************************************/
+    // V2 Additions
+    public var description : String {
+        get{
+            var membersString = ""
+            for person in members {
+                membersString = "\(membersString) \(person.firstName) \(person.lastName),"
+            }
+            
+            if !membersString.isEmpty {
+                let lastCommaIndex = membersString.endIndex.advancedBy(-1);
+                membersString.removeAtIndex(lastCommaIndex)
+            }
+            
+            return "[Members: \(membersString) | Household Income: \(householdIncome())]"
+        }
+    }
+    /****************************************************************/
     
     public init(spouse1: Person, spouse2: Person) {
         if (spouse1.spouse == nil && spouse2.spouse == nil && spouse1.age > 18 && spouse2.age > 18) {
@@ -302,23 +326,6 @@ public class Family : CustomStringConvertible {
         }
         return foundAndRemoved
     }
-    
-    /****************************************************************/
-    // V2 Additions
-    public func description() -> String {
-        var membersString = ""
-        for person in members {
-            membersString = "\(membersString) \(person.firstName) \(person.lastName),"
-        }
-        
-        if !membersString.isEmpty {
-            let lastCommaIndex = membersString.endIndex.advancedBy(-1);
-            membersString.removeAtIndex(lastCommaIndex)
-        }
-        
-        return "[Members: \(membersString) | Household Income: \(householdIncome())]"
-    }
-    /****************************************************************/
 }
 
 
