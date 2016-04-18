@@ -25,6 +25,11 @@ protocol CustomStringConvertible {
     func description() -> String  //QUESTION: SHOULD THIS BE A FUNC OR VAR?
 }
 
+protocol Mathematics {
+    func + (left: Money, right: Money) -> Money
+    func - (left: Money, right: Money) -> Money
+}
+
 
 ////////////////////////////////////
 // Money
@@ -113,7 +118,23 @@ public struct Money : CustomStringConvertible {
     public func description() -> String {
         return "\(currency)\(amount)"
     }
-    
+}
+
+//QUESTION: HAD TO PULL THIS OUT of the Money class
+public func + (left: Money, right: Money) -> Money {
+    if left.currency == right.currency {
+        return Money(amount: left.amount + right.amount, currency: left.currency);
+    }
+    let convertedAmount = left.convert(right.currency);
+    return Money(amount: convertedAmount.amount + right.amount, currency: right.currency);
+}
+
+public func - (left: Money, right: Money) -> Money {
+    if left.currency == right.currency {
+        return Money(amount: left.amount - right.amount, currency: left.currency);
+    }
+    let convertedAmount = left.convert(right.currency);
+    return Money(amount: convertedAmount.amount - right.amount, currency: right.currency);
 }
 
 ////////////////////////////////////
