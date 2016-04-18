@@ -167,7 +167,7 @@ public class Job : CustomStringConvertible {
 ////////////////////////////////////
 // Person
 //
-public class Person {
+public class Person : CustomStringConvertible {
     public var firstName : String = ""
     public var lastName : String = ""
     public var age : Int = 0
@@ -205,12 +205,18 @@ public class Person {
     public func toString() -> String {
         return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(job) spouse:\(spouse)]";
     }
+    
+    public func description() -> String {
+        let jobString = job != nil ? "\(job!.description())" : "nil"
+        let spouseString = spouse != nil ? "\(spouse!.firstName) \(spouse!.lastName)" : "nil"
+        return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(jobString) spouse:\(spouseString)]"
+    }
 }
 
 ////////////////////////////////////
 // Family
 //
-public class Family {
+public class Family : CustomStringConvertible {
     private var members : [Person] = []
     private var canHaveKids : Bool = false
     
@@ -254,6 +260,20 @@ public class Family {
             count += 1;
         }
         return foundAndRemoved
+    }
+    
+    public func description() -> String {
+        var membersString = ""
+        for person in members {
+            membersString = "\(membersString) \(person.firstName) \(person.lastName),"
+        }
+        
+        if !membersString.isEmpty {
+            let lastCommaIndex = membersString.endIndex.advancedBy(-1);
+            membersString.removeAtIndex(lastCommaIndex)
+        }
+        
+        return "[Members: \(membersString) | Household Income: \(householdIncome())]"
     }
 }
 
