@@ -11,8 +11,8 @@ import XCTest
 import SimpleDomainModel
 
 //////////////////
-// MoneyTests
-//
+// Testing protocol CustomStringConvertible to all types
+// (Money, Job, Person, and Family)
 class CustomStringConvertibleTests: XCTestCase {
     
     let tenUSD = Money(amount: 10, currency: "USD")

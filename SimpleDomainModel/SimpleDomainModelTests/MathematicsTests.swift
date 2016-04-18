@@ -11,7 +11,7 @@ import XCTest
 import SimpleDomainModel
 
 //////////////////
-// MoneyTests
+// Testing protocol Mathematics to Money Class
 //
 class MathematicsTests: XCTestCase {
     
