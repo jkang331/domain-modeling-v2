@@ -111,7 +111,7 @@ public struct Money : CustomStringConvertible {
     }
     
     public func description() -> String {
-        return "\(currency) + \(amount)"
+        return "\(currency)\(amount)"
     }
     
 }
@@ -119,68 +119,143 @@ public struct Money : CustomStringConvertible {
 ////////////////////////////////////
 // Job
 //
-//public class Job {
-//  public enum JobType {
-//    case Hourly(Double)
-//    case Salary(Int)
-//  }
-//
-//  public init(title : String, type : JobType) {
-//  }
-//
-//  public func calculateIncome(hours: Int) -> Int {
-//  }
-//
-//  public func raise(amt : Double) {
-//  }
-//}
+public class Job : CustomStringConvertible {
+    public var title : String
+    public var job : JobType
+    
+    public enum JobType {
+        case Hourly(Double)
+        case Salary(Int)
+    }
+    
+    public init(title : String, type : JobType) {
+        self.title = title;
+        self.job = type;
+    }
+    
+    public func calculateIncome(hours: Int) -> Int {
+        switch job {
+        case .Hourly(let value):
+            return Int(Double(hours) * value);
+        case .Salary(let value):
+            return value;
+        }
+    }
+    
+    public func raise(amt : Double) {
+        switch job {
+        case .Hourly(let value):
+            self.job = Job.JobType.Hourly(amt + value);
+        case .Salary(let value):
+            self.job = Job.JobType.Salary(Int(amt) + value);
+        }
+    }
+    
+    public func description() -> String {
+        var salary : String
+        switch job {
+        case .Hourly(let value):
+            salary = "\(value) per hour"
+        case .Salary(let value):
+            salary = "\(value) salary"
+        }
+        return "\(title) (\(salary))"
+    }
+
+}
 
 ////////////////////////////////////
 // Person
 //
-//public class Person {
-//  public var firstName : String = ""
-//  public var lastName : String = ""
-//  public var age : Int = 0
-//
-//  public var job : Job? {
-//    get { }
-//    set(value) {
-//    }
-//  }
-//
-//  public var spouse : Person? {
-//    get { }
-//    set(value) {
-//    }
-//  }
-//
-//  public init(firstName : String, lastName: String, age : Int) {
-//    self.firstName = firstName
-//    self.lastName = lastName
-//    self.age = age
-//  }
-//
-//  public func toString() -> String {
-//  }
-//}
+public class Person {
+    public var firstName : String = ""
+    public var lastName : String = ""
+    public var age : Int = 0
+    private var _job : Job?
+    private var _spouse: Person?
+    
+    public var job : Job? {
+        get {
+            return _job
+        }
+        set(value) {
+            if age > 16 {
+                _job = value;
+            }
+        }
+    }
+    
+    public var spouse : Person? {
+        get {
+            return _spouse
+        }
+        set(value) {
+            if (age > 18) {
+                _spouse = value
+            }
+        }
+    }
+    
+    public init(firstName : String, lastName: String, age : Int) {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.age = age
+    }
+    
+    public func toString() -> String {
+        return "[Person: firstName:\(firstName) lastName:\(lastName) age:\(age) job:\(job) spouse:\(spouse)]";
+    }
+}
 
 ////////////////////////////////////
 // Family
 //
-//public class Family {
-//  private var members : [Person] = []
-//
-//  public init(spouse1: Person, spouse2: Person) {
-//  }
-//
-//  public func haveChild(child: Person) -> Bool {
-//  }
-//
-//  public func householdIncome() -> Int {
-//  }
-//}
-
+public class Family {
+    private var members : [Person] = []
+    private var canHaveKids : Bool = false
+    
+    public init(spouse1: Person, spouse2: Person) {
+        if (spouse1.spouse == nil && spouse2.spouse == nil && spouse1.age > 18 && spouse2.age > 18) {
+            spouse1.spouse = spouse2
+            spouse2.spouse = spouse1
+            members.append(spouse1)
+            members.append(spouse2)
+            canHaveKids = spouse1.age > 21 || spouse2.age > 21
+        }
+    }
+    
+    public func haveChild(child: Person) -> Bool {
+        if canHaveKids {
+            members.append(child)
+            return true
+        }
+        return false
+    }
+    
+    public func householdIncome() -> Int {
+        var total: Int = 0
+        for person in members {
+            if person.job != nil {
+                total = total + (person.job?.calculateIncome(2000))!
+            }
+        }
+        return total;
+    }
+    
+    // Additional func demonstrating updating var canHaveKids when removing members from Family
+    public func removeMember(person: Person) -> Bool {
+        var count = 0;
+        var foundAndRemoved = false;
+        for i in members {
+            if i === person {
+                members.removeAtIndex(count)
+                foundAndRemoved = true;
+            }
+            count += 1;
+        }
+        return foundAndRemoved
+    }
+}
 
 
 
