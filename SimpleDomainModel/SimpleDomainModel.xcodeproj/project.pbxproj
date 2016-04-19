@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		387FB9FD1CC49C34001C169D /* CustomStringConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FB9FC1CC49C34001C169D /* CustomStringConvertibleTests.swift */; };
 		387FB9FF1CC4B3E3001C169D /* MathematicsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FB9FE1CC4B3E3001C169D /* MathematicsTests.swift */; };
+		38AAC3101CC5DE9800D732AB /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AAC30F1CC5DE9800D732AB /* DoubleExtensionTests.swift */; };
 		FE6891181CB5D8E40018C340 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6891171CB5D8E40018C340 /* main.swift */; };
 		FE6891251CB5D90B0018C340 /* SimpleDomainModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6891241CB5D90B0018C340 /* SimpleDomainModelTests.swift */; };
 		FE68912A1CB5D9130018C340 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6891171CB5D8E40018C340 /* main.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		387FB9FC1CC49C34001C169D /* CustomStringConvertibleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomStringConvertibleTests.swift; sourceTree = "<group>"; };
 		387FB9FE1CC4B3E3001C169D /* MathematicsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathematicsTests.swift; sourceTree = "<group>"; };
+		38AAC30F1CC5DE9800D732AB /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
 		FE6891141CB5D8E40018C340 /* SimpleDomainModel */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleDomainModel; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE6891171CB5D8E40018C340 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FE6891221CB5D90B0018C340 /* SimpleDomainModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleDomainModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 				FE68912F1CB6023B0018C340 /* PersonTests.swift */,
 				387FB9FC1CC49C34001C169D /* CustomStringConvertibleTests.swift */,
 				387FB9FE1CC4B3E3001C169D /* MathematicsTests.swift */,
+				38AAC30F1CC5DE9800D732AB /* DoubleExtensionTests.swift */,
 			);
 			path = SimpleDomainModelTests;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38AAC3101CC5DE9800D732AB /* DoubleExtensionTests.swift in Sources */,
 				FE68912C1CB5FDC60018C340 /* JobTests.swift in Sources */,
 				FE68912A1CB5D9130018C340 /* main.swift in Sources */,
 				FE6891301CB6023B0018C340 /* PersonTests.swift in Sources */,

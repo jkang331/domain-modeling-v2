@@ -48,13 +48,11 @@ public func - (left: Money, right: Money) -> Money {
 
 // converting to USD (default currency)
 extension Double {
-    var USD: Double {return self}
-    var EUR: Double {return (self * 2) / 3}
-    var GBP: Double {return self * 2}
-    var CAN: Double {return (self * 4) / 5}
+    var USD: Money {return Money(amount:Int(self), currency:"USD")}
+    var EUR: Money {return Money(amount:Int(self), currency:"EUR")}
+    var GBP: Money {return Money(amount:Int(self), currency:"GBP")}
+    var CAN: Money {return Money(amount:Int(self), currency:"CAN")}
 }
-
-// TODO NEED TO WRITE UP UNIT TESTS FOR THIS
 
 /****************************************************************/
 
