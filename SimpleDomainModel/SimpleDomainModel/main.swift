@@ -31,22 +31,13 @@ public protocol Mathematics {
 }
 
 public func + (left: Money, right: Money) -> Money {
-    if left.currency == right.currency {
-        return Money(amount: left.amount + right.amount, currency: left.currency);
-    }
-    let convertedAmount = left.convert(right.currency);
-    return Money(amount: convertedAmount.amount + right.amount, currency: right.currency);
+    return left.add(right)
 }
 
 public func - (left: Money, right: Money) -> Money {
-    if left.currency == right.currency {
-        return Money(amount: left.amount - right.amount, currency: left.currency);
-    }
-    let convertedAmount = left.convert(right.currency);
-    return Money(amount: convertedAmount.amount - right.amount, currency: right.currency);
+    return left.subtract(right)
 }
 
-// converting to USD (default currency)
 extension Double {
     var USD: Money {return Money(amount:Int(self), currency:"USD")}
     var EUR: Money {return Money(amount:Int(self), currency:"EUR")}
@@ -67,16 +58,8 @@ public struct Money : CustomStringConvertible, Mathematics {
     // V2 Additions
     public var description : String {
         get{
-            return "\(currency)\(amount)"
+            return "\(currency)\(Double(amount))"
         }
-    }
-    
-    public func add(to: Money) -> Money {
-        return self + to
-    }
-    
-    public func subtract(from: Money) -> Money {
-        return self - from
     }
     /****************************************************************/
     
@@ -139,6 +122,22 @@ public struct Money : CustomStringConvertible, Mathematics {
             print("Looks like the given currency doesn't match known currencies.  Please try again.")
             return self;
         }
+    }
+    
+    public func add(to: Money) -> Money {
+        if to.currency == currency {
+            return Money(amount: amount + to.amount, currency: to.currency);
+        }
+        let convertedAmount = convert(to.currency);
+        return Money(amount: convertedAmount.amount + to.amount, currency: to.currency);
+    }
+    
+    public func subtract(from: Money) -> Money {
+        if from.currency == currency {
+            return Money(amount: amount - from.amount, currency: from.currency);
+        }
+        let convertedAmount = convert(from.currency);
+        return Money(amount: convertedAmount.amount - from.amount, currency: from.currency);
     }
 }
 

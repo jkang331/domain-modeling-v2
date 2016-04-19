@@ -22,11 +22,11 @@ class CustomStringConvertibleTests: XCTestCase {
     let fifteenCAN = Money(amount: 15, currency: "CAN")
     
     func testMoneyDescription() {
-        XCTAssert(tenUSD.description == "USD10")
-        XCTAssert(twelveUSD.description == "USD12")
-        XCTAssert(fiveGBP.description == "GBP5")
-        XCTAssert(fifteenEUR.description == "EUR15")
-        XCTAssert(fifteenCAN.description == "CAN15")
+        XCTAssert(tenUSD.description == "USD10.0")
+        XCTAssert(twelveUSD.description == "USD12.0")
+        XCTAssert(fiveGBP.description == "GBP5.0")
+        XCTAssert(fifteenEUR.description == "EUR15.0")
+        XCTAssert(fifteenCAN.description == "CAN15.0")
     }
     
     func testJobDescription() {

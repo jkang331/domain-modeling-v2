@@ -38,8 +38,8 @@ class MathematicsTests: XCTestCase {
     }
     
     func testSubtractUSDtoGBP() {
-        let total = tenUSD - fiveGBP
-        XCTAssert(total.amount == 0)
+        let total = twelveUSD - fiveGBP
+        XCTAssert(total.amount == 1)
         XCTAssert(total.currency == "GBP")
     }
     
